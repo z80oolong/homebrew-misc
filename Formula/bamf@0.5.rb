@@ -31,7 +31,7 @@ class BamfAT05 < Formula
   def install
     ENV["PYTHON"] = "#{Formula["python@3.11"].opt_bin}/python3"
     ENV.prepend_path "PYTHONPATH", "#{Formula["z80oolong/misc/lxml@4.9"].opt_prefix}/libexec/lib/python3.11/site-packages"
-    inreplace "./data/Makefile.am", %r{^systemddir = /usr/lib/systemd/user}, "systemddir = #{Formula["systemd"].opt_prefix}/lib/systemd/user"
+    inreplace "./data/Makefile.am", %r{^systemddir = /usr/lib/systemd/user}, "systemddir = #{prefix}/lib/systemd/user"
 
     system "autoupdate"
     system "sh", "./autogen.sh"
