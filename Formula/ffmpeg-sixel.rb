@@ -232,10 +232,10 @@ index f8c23f2870..36d4181370 100644
 +$ ffmpeg -i 'https://www.youtube.com/watch?v=ixaMZPPmVG0' -f sixel -pix_fmt rgb24 -s 480x270 -
 +```
 diff --git a/configure b/configure
-index 0ab0761011..d5df763069 100755
+index 8a1a1b8584..93b564ff5f 100755
 --- a/configure
 +++ b/configure
-@@ -268,6 +268,7 @@ External library support:
+@@ -264,6 +264,7 @@ External library support:
    --enable-librtmp         enable RTMP[E] support via librtmp [no]
    --enable-libshaderc      enable GLSL->SPIRV compilation via libshaderc [no]
    --enable-libshine        enable fixed-point MP3 encoding via libshine [no]
@@ -243,7 +243,7 @@ index 0ab0761011..d5df763069 100755
    --enable-libsmbclient    enable Samba protocol via libsmbclient [no]
    --enable-libsnappy       enable Snappy compression, needed for hap encoding [no]
    --enable-libsoxr         enable Include libsoxr resampling [no]
-@@ -1888,6 +1889,7 @@ EXTERNAL_LIBRARY_LIST="
+@@ -1884,6 +1885,7 @@ EXTERNAL_LIBRARY_LIST="
      librtmp
      libshaderc
      libshine
@@ -251,7 +251,7 @@ index 0ab0761011..d5df763069 100755
      libsmbclient
      libsnappy
      libsoxr
-@@ -3612,6 +3614,7 @@ oss_indev_deps_any="sys_soundcard_h"
+@@ -3601,6 +3603,7 @@ oss_indev_deps_any="sys_soundcard_h"
  oss_outdev_deps_any="sys_soundcard_h"
  pulse_indev_deps="libpulse"
  pulse_outdev_deps="libpulse"
@@ -259,7 +259,7 @@ index 0ab0761011..d5df763069 100755
  sdl2_outdev_deps="sdl2"
  sndio_indev_deps="sndio"
  sndio_outdev_deps="sndio"
-@@ -6787,6 +6790,7 @@ enabled librtmp           && require_pkg_config librtmp librtmp librtmp/rtmp.h R
+@@ -6782,6 +6785,7 @@ enabled librtmp           && require_pkg_config librtmp librtmp librtmp/rtmp.h R
  enabled librubberband     && require_pkg_config librubberband "rubberband >= 1.8.1" rubberband/rubberband-c.h rubberband_new -lstdc++ && append librubberband_extralibs "-lstdc++"
  enabled libshaderc        && require_pkg_config spirv_compiler "shaderc >= 2019.1" shaderc/shaderc.h shaderc_compiler_initialize
  enabled libshine          && require_pkg_config libshine shine shine/layer3.h shine_encode_buffer
@@ -268,10 +268,10 @@ index 0ab0761011..d5df763069 100755
                                 require libsmbclient libsmbclient.h smbc_init -lsmbclient; }
  enabled libsnappy         && require libsnappy snappy-c.h snappy_compress -lsnappy -lstdc++
 diff --git a/doc/general_contents.texi b/doc/general_contents.texi
-index 8ac121dee1..e17448ba04 100644
+index c48c812a31..8fd2423505 100644
 --- a/doc/general_contents.texi
 +++ b/doc/general_contents.texi
-@@ -1473,6 +1473,7 @@ performance on systems without hardware floating point support).
+@@ -1475,6 +1475,7 @@ performance on systems without hardware floating point support).
  @item OSS               @tab X      @tab X
  @item PulseAudio        @tab X      @tab X
  @item SDL               @tab        @tab X
