@@ -18,6 +18,7 @@ class FfmpegSixelAT60 < Formula
   depends_on "freetype"
   depends_on "frei0r"
   depends_on "gnutls"
+  depends_on "glibc"
   depends_on "lame"
   depends_on "libass"
   depends_on "libbluray"

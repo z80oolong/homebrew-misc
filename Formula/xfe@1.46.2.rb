@@ -1,4 +1,4 @@
-class Xfe < Formula
+class XfeAT1462 < Formula
   desc "A lightweight file manager for X."
   homepage "http://roland65.free.fr/xfe/"
   url "https://sourceforge.net/projects/xfe/files/xfe/1.46.2/xfe-1.46.2.tar.xz"
@@ -20,6 +20,8 @@ class Xfe < Formula
   depends_on "libxcb"
   depends_on "z80oolong/dep/gettext@0.22.5" => :build
   depends_on "pkg-config" => :build
+
+  keg_only :versioned_formula
 
   def install
     ENV.prepend_path "PERL5LIB", "#{Formula["intltool"].libexec}/lib/perl5" unless OS.mac?

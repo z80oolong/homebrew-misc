@@ -1,8 +1,8 @@
-class Xfe < Formula
+class XfeAT146 < Formula
   desc "A lightweight file manager for X."
   homepage "http://roland65.free.fr/xfe/"
-  url "https://sourceforge.net/projects/xfe/files/xfe/1.46.2/xfe-1.46.2.tar.xz"
-  sha256 "ea134d75ae0128263d134dae158267b7427248da7f8acd59aa31653b041c456b"
+  url "https://sourceforge.net/projects/xfe/files/xfe/1.46/xfe-1.46.tar.xz"
+  sha256 "f34aeda1eb668a90ce6d6f011cbd944bbdf4e49a394c5ad0ac883a0f32e847f9"
   license "GPL-2.0"
 
   depends_on "glibc"
@@ -13,13 +13,15 @@ class Xfe < Formula
   depends_on "libxext"
   depends_on "libxft"
   depends_on "intltool"
+  depends_on "gettext"
   depends_on "perl-xml-parser"
   depends_on "perl"
   depends_on "fox"
   depends_on "xcb-util"
   depends_on "libxcb"
-  depends_on "z80oolong/dep/gettext@0.22.5" => :build
   depends_on "pkg-config" => :build
+
+  keg_only :versioned_formula
 
   def install
     ENV.prepend_path "PERL5LIB", "#{Formula["intltool"].libexec}/lib/perl5" unless OS.mac?

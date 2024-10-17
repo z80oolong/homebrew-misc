@@ -1,21 +1,14 @@
-class FfmpegSixel < Formula
+class FfmpegSixelAT70 < Formula
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
   license "GPL-2.0-or-later"
+  url "https://ffmpeg.org/releases/ffmpeg-7.0.tar.xz"
+  sha256 "4426a94dd2c814945456600c8adfc402bee65ec14a70e8c531ec9a2cd651da7b"
   revision 5
 
-  stable do
-    url "https://ffmpeg.org/releases/ffmpeg-7.0.2.tar.xz"
-    sha256 "8646515b638a3ad303e23af6a3587734447cb8fc0a0c064ecdb8e95c4fd8b389"
-    patch :p1, Formula["z80oolong/misc/ffmpeg-sixel@7.0.2"].diff_data
-  end
+  patch :p1, :DATA
 
-  head do
-    url "https://github.com/FFmpeg/FFmpeg.git", branch: "master"
-    patch :p1, :DATA
-  end
-
-  keg_only "it conflicts with 'homebrew/core/ffmpeg'"
+  keg_only :versioned_formula
 
   depends_on "pkg-config" => :build
   depends_on "aom"
@@ -140,7 +133,7 @@ class FfmpegSixel < Formula
     mv bin/"python", pkgshare/"python", force: true
 
     # Fix rpath of bin/ffmpeg
-    fix_rpath bin/"ffmpeg", ["z80oolong/misc/ffmpeg-sixel"], []
+    fix_rpath bin/"ffmpeg", ["z80oolong/misc/ffmpeg-sixel@6.0"], []
   end
 
   def fix_rpath(binname, append_list, delete_list)
@@ -175,7 +168,7 @@ end
 
 __END__
 diff --git a/README.md b/README.md
-index f8c23f2870..36d4181370 100644
+index f8c23f28..36d41813 100644
 --- a/README.md
 +++ b/README.md
 @@ -25,6 +25,8 @@ such as audio, video, subtitles and related metadata.
@@ -234,10 +227,10 @@ index f8c23f2870..36d4181370 100644
 +$ ffmpeg -i 'https://www.youtube.com/watch?v=ixaMZPPmVG0' -f sixel -pix_fmt rgb24 -s 480x270 -
 +```
 diff --git a/configure b/configure
-index d3bd46f382..8688261234 100755
+index 4f5353f8..09ff09a9 100755
 --- a/configure
 +++ b/configure
-@@ -270,6 +270,7 @@ External library support:
+@@ -268,6 +268,7 @@ External library support:
    --enable-librtmp         enable RTMP[E] support via librtmp [no]
    --enable-libshaderc      enable GLSL->SPIRV compilation via libshaderc [no]
    --enable-libshine        enable fixed-point MP3 encoding via libshine [no]
@@ -245,7 +238,7 @@ index d3bd46f382..8688261234 100755
    --enable-libsmbclient    enable Samba protocol via libsmbclient [no]
    --enable-libsnappy       enable Snappy compression, needed for hap encoding [no]
    --enable-libsoxr         enable Include libsoxr resampling [no]
-@@ -1950,6 +1951,7 @@ EXTERNAL_LIBRARY_LIST="
+@@ -1946,6 +1947,7 @@ EXTERNAL_LIBRARY_LIST="
      librtmp
      libshaderc
      libshine
@@ -253,7 +246,7 @@ index d3bd46f382..8688261234 100755
      libsmbclient
      libsnappy
      libsoxr
-@@ -3742,6 +3744,7 @@ oss_indev_deps_any="sys_soundcard_h"
+@@ -3697,6 +3699,7 @@ oss_indev_deps_any="sys_soundcard_h"
  oss_outdev_deps_any="sys_soundcard_h"
  pulse_indev_deps="libpulse"
  pulse_outdev_deps="libpulse"
@@ -261,7 +254,7 @@ index d3bd46f382..8688261234 100755
  sdl2_outdev_deps="sdl2"
  sndio_indev_deps="sndio"
  sndio_outdev_deps="sndio"
-@@ -6977,6 +6980,7 @@ enabled librtmp           && require_pkg_config librtmp librtmp librtmp/rtmp.h R
+@@ -6944,6 +6947,7 @@ enabled librtmp           && require_pkg_config librtmp librtmp librtmp/rtmp.h R
  enabled librubberband     && require_pkg_config librubberband "rubberband >= 1.8.1" rubberband/rubberband-c.h rubberband_new -lstdc++ && append librubberband_extralibs "-lstdc++"
  enabled libshaderc        && require_pkg_config spirv_compiler "shaderc >= 2019.1" shaderc/shaderc.h shaderc_compiler_initialize
  enabled libshine          && require_pkg_config libshine shine shine/layer3.h shine_encode_buffer
@@ -270,10 +263,10 @@ index d3bd46f382..8688261234 100755
                                 require libsmbclient libsmbclient.h smbc_init -lsmbclient; }
  enabled libsnappy         && require libsnappy snappy-c.h snappy_compress -lsnappy -lstdc++
 diff --git a/doc/general_contents.texi b/doc/general_contents.texi
-index e7cf4f8239..f82b2aa509 100644
+index f269cbd1..f566992b 100644
 --- a/doc/general_contents.texi
 +++ b/doc/general_contents.texi
-@@ -1505,6 +1505,7 @@ performance on systems without hardware floating point support).
+@@ -1496,6 +1496,7 @@ performance on systems without hardware floating point support).
  @item OSS               @tab X      @tab X
  @item PulseAudio        @tab X      @tab X
  @item SDL               @tab        @tab X
@@ -282,7 +275,7 @@ index e7cf4f8239..f82b2aa509 100644
  @item VfW capture       @tab X      @tab
  @item X11 grabbing      @tab X      @tab
 diff --git a/doc/outdevs.texi b/doc/outdevs.texi
-index 9ee857528e..a4ac5279bd 100644
+index 9ee85752..a4ac5279 100644
 --- a/doc/outdevs.texi
 +++ b/doc/outdevs.texi
 @@ -478,6 +478,75 @@ SDL window, forcing its size to the qcif format:
@@ -362,7 +355,7 @@ index 9ee857528e..a4ac5279bd 100644
  
  sndio audio output device.
 diff --git a/libavdevice/Makefile b/libavdevice/Makefile
-index c30449201d..96e4bcec03 100644
+index c3044920..96e4bcec 100644
 --- a/libavdevice/Makefile
 +++ b/libavdevice/Makefile
 @@ -43,6 +43,7 @@ OBJS-$(CONFIG_PULSE_INDEV)               += pulse_audio_dec.o \
@@ -374,7 +367,7 @@ index c30449201d..96e4bcec03 100644
  OBJS-$(CONFIG_SNDIO_OUTDEV)              += sndio_enc.o sndio.o
  OBJS-$(CONFIG_V4L2_INDEV)                += v4l2.o v4l2-common.o timefilter.o
 diff --git a/libavdevice/alldevices.c b/libavdevice/alldevices.c
-index 9b9a9146c7..59521a0ef8 100644
+index 9b9a9146..59521a0e 100644
 --- a/libavdevice/alldevices.c
 +++ b/libavdevice/alldevices.c
 @@ -51,6 +51,7 @@ extern const FFOutputFormat ff_oss_muxer;
@@ -387,7 +380,7 @@ index 9b9a9146c7..59521a0ef8 100644
  extern const FFInputFormat  ff_v4l2_demuxer;
 diff --git a/libavdevice/sixel.c b/libavdevice/sixel.c
 new file mode 100644
-index 0000000000..82db4a4986
+index 00000000..82db4a49
 --- /dev/null
 +++ b/libavdevice/sixel.c
 @@ -0,0 +1,477 @@
