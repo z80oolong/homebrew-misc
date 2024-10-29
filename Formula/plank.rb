@@ -25,6 +25,7 @@ class Plank < Formula
   depends_on "z80oolong/dep/bamf@0.5"
 
   def install
+    ENV["LC_ALL"] = "C"
     system "sh", "./autogen.sh"
     system "./configure", "--disable-dependency-tracking",
                           "--disable-silent-rules",
