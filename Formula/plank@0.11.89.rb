@@ -15,29 +15,46 @@ class PlankAT01189 < Formula
   depends_on "gtk+3"
   depends_on "libgee"
   depends_on "librsvg"
-  depends_on "z80oolong/dep/gnome-menus@3.36"
-  depends_on "z80oolong/dep/libwnck3@3.36"
+  depends_on "z80oolong/dep/gnome-desktop@3.36"
   depends_on "z80oolong/dep/bamf@0.5"
 
   def install
     ENV["LC_ALL"] = "C"
-    system "sh", "./autogen.sh"
-    system "./configure", "--disable-dependency-tracking",
-                          "--disable-silent-rules",
-                          "--prefix=#{prefix}"
 
+    args  = std_configure_args
+    args << "--disable-schemas-compile"
+    args << "--bindir=#{libexec}/bin"
+
+    system "sh", "./autogen.sh"
+    system "./configure", *args
+    system "make"
     system "make", "install"
+
+    gschema_dirs = [share/"glib-2.0/schemas"]
+    gschema_dirs << (HOMEBREW_PREFIX/"share/glib-2.0/schemas")
+    gschema_dirs << "${GSETTINGS_SCHEMA_DIR}"
+
+    xdg_data_dirs = [share]
+    xdg_data_dirs << (HOMEBREW_PREFIX/"share")
+    xdg_data_dirs << "/usr/local/share"
+    xdg_data_dirs << "/usr/share"
+    xdg_data_dirs << "${XDG_DATA_DIRS}"
+    
+    script  = "#!/bin/sh\n"
+    script << "export GSETTINGS_SCHEMA_DIR=\"#{gschema_dirs.join(":")}\"\n"
+    script << "export XDG_DATA_DIRS=\"#{xdg_data_dirs.join(":")}\"\n"
+    script << "export XDG_SESSION_TYPE=\"x11\"\n"
+    script << "export XDG_SESSION_CLASS=\"user\"\n"
+    script << "export XDG_SESSION_DESKTOP=\"ubuntu\"\n"
+    script << "exec #{libexec}/bin/plank $@\n"
+
+    ohai "Create #{bin}/plank script."
+    (bin/"plank").write(script)
+    (bin/"plank").chmod(0755)
   end
 
-  def caveats; <<~EOS
-    When starting plank installed with this Formula, the environment variables should be set as follows.
-    
-      export GSETTINGS_SCHEMA_DIR="#{opt_share}/glib-2.0/schemas:#{HOMEBREW_PREFIX}/share/glib-2.0/schemas:${GSETTINGS_SCHEMA_DIR}"
-      export XDG_DATA_DIRS="#{opt_share}:#{HOMEBREW_PREFIX}/share:${XDG_DATA_DIRS}"
-      export XDG_SESSION_TYPE="x11"
-      export XDG_SESSION_CLASS="user"
-      export XDG_SESSION_DESKTOP="ubuntu"
-    EOS
+  def post_install
+    system Formula["glib"].opt_bin/"glib-compile-schemas", HOMEBREW_PREFIX/"share/glib-2.0/schemas"
   end
 
   test do

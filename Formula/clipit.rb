@@ -29,8 +29,12 @@ class Clipit < Formula
     ENV.append "CFLAGS", "-Wno-implicit-function-declaration"
     ENV["LC_ALL"] = "C"
 
+    args  = std_configure_args
+    args << "--disable-silent-rules"
+    args << "--with-gtk3"
+
     system "./autogen.sh"
-    system "./configure", "--disable-silent-rules", *std_configure_args, "--with-gtk3"
+    system "./configure", *args
     system "make"
     system "make", "install"
   end
