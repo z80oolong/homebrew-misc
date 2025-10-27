@@ -1,8 +1,8 @@
-class XfeAT1462 < Formula
+class XfeAT201 < Formula
   desc "A lightweight file manager for X."
   homepage "http://roland65.free.fr/xfe/"
-  url "https://sourceforge.net/projects/xfe/files/xfe/1.46.2/xfe-1.46.2.tar.xz"
-  sha256 "ea134d75ae0128263d134dae158267b7427248da7f8acd59aa31653b041c456b"
+  url "https://sourceforge.net/projects/xfe/files/xfe/2.0.1/xfe-2.0.1.tar.xz"
+  sha256 "be5bb4cac853ef6ad6401d1aa8295e22c749499e2410bf0c52c6044f556a25b3"
   license "GPL-2.0"
 
   depends_on "glibc"
@@ -18,6 +18,7 @@ class XfeAT1462 < Formula
   depends_on "fox"
   depends_on "xcb-util"
   depends_on "libxcb"
+  depends_on "polkit"
   depends_on "z80oolong/dep/gettext@0.22.5" => :build
   depends_on "pkg-config" => :build
 
